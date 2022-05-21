@@ -26,10 +26,13 @@ const taskB = { task_description: 'Do bar', task_notes: 'Use Postman!', project_
 const taskC = { task_description: 'Do baz', task_notes: 'Have fun!', task_completed: 1, project_id: 2 }
 
 afterAll(async () => {
+  console.log("afterAll")
   await db.destroy()
 })
+
 beforeEach(async () => {
-  await db.migrate.rollback()
+  console.log("hello world")
+  await db.migrate.rollback() // this line is not the issue
   await db.migrate.latest()
 })
 

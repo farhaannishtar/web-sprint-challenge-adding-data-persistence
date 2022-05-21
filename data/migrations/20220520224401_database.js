@@ -3,7 +3,7 @@ exports.up = async function(knex) {
     projects.increments("project_id")
     projects.string("project_name").notNullable()
     projects.string("project_description")
-    projects.integer("projects_completed").defaultTo(0);
+    projects.integer("project_completed").defaultTo(0);
   })
   .createTable("resources", resources => {
     resources.increments("resource_id")
@@ -43,6 +43,11 @@ exports.up = async function(knex) {
 };
 
 
-exports.down = function(knex) {
-  
+exports.down = async function(knex) {
+  console.log("We are dropping tables");
+
+  await knex.schema.dropTableIfExists('project_resources')
+  await knex.schema.dropTableIfExists('tasks')
+  await knex.schema.dropTableIfExists('resources')
+  await knex.schema.dropTableIfExists('projects')
 };
