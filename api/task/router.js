@@ -12,16 +12,14 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-// router.post('/', (req, res, next) => {
-//   console.log("Inside router");
-//   Resource.addResource(req.body)
-//     .then(newResource => {
-//       console.log("Inside THEN");
-//       console.log(newResource);
-//       res.status(201).json(newResource)
-//     })
-//     .catch(next)
-// })
+router.post('/', (req, res, next) => {
+  Task.addTask(req.body)
+    .then(newTask => {
+      console.log(newTask);
+      res.status(201).json(newTask)
+    })
+    .catch(next)
+})
 
 
 module.exports = router

@@ -1,17 +1,6 @@
 // build your `Task` model here
 const db = require('../../data/dbConfig');
 
-// async function findTasks() {
-//   const rows = await db('tasks')
-//   if (rows.length === 0) {
-//     return null;
-//   }
-//   rows.forEach(row => {
-//       row.task_completed = Boolean(row.task_completed);
-//   })
-//   return rows;
-// }
-
 async function findTasks() {
   const rows = await db('tasks')
     .join('projects', 'projects.project_id', 'tasks.project_id')
@@ -25,16 +14,27 @@ async function findTasks() {
   return rows;
 }
 
-// function find() {
-//   return db('users')
-//     .leftJoin('posts', 'user_id', 'users.id')
-//     .groupBy('users.id')
-//     .select('users.id as user_id', 'username')
-//     .count('posts.id as post_count')
-// }
+async function findTaskById(id) {
+  const row = await db('tasks')
+    .where({ task_id: id })
+    .first();
+
+  row.task_completed = Boolean(row.task_completed)
+
+  return row;
+}
+
+function addTask(task) {
+  return db('tasks')
+    .insert(task)
+    .then(([id]) => { 
+      console.log(id);
+      return findTaskById(id)
+    })
+}
 
 module.exports = {
   findTasks,
-  // findResourceById,
-  // addResource,
+  addTask,
+  findTaskById,
 }
